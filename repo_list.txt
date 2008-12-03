@@ -1,0 +1,11 @@
+#name                               repo                                                        vcs         version
+dateutil                            http://pypi.python.org/pypi/dateutil                        pypi        1.1
+html2text.py                        http://www.aaronsw.com/2002/html2text/html2text.py          wget        2.34
+django-1.0                          http://code.djangoproject.com/svn/django/branches/releases/1.0.X    svn 9560
+gondola|lincolnloop                 git@lincolnloop.unfuddle.com:lincolnloop/gondola.git        git         head|master
+django-command-extensions           http://django-command-extensions.googlecode.com/svn/trunk   svn         135
+django-registration                 http://django-registration.googlecode.com/svn/trunk         svn         168
+sorl-thumbnail|sorl                 http://sorl-thumbnail.googlecode.com/svn/trunk              svn         430
+#setup.py fails for tagging without DJANGO_SETTINGS_MODULE defined
+django-tagging|tagging              http://django-tagging.googlecode.com/svn/trunk              svn         149
+django-template-utils               http://django-template-utils.googlecode.com/svn/trunk       svn         109

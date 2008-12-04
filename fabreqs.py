@@ -5,12 +5,16 @@ requirements = [
         'dist': 'git',
         'url': 'git@lincolnloop.unfuddle.com:lincolnloop/gondola.git',
     }, {
+        'name': 'html2text.py',
+        'dist': 'wget',
+        'url': 'http://www.aaronsw.com/2002/html2text/html2text.py',
+    }, {
         'name': 'python-dateutil',
         'dist': 'pypi',
         'rev': '1.4.1',
         'url':'http://pypi.python.org/pypi/dateutil',
     }, {
-        'name': 'django-1.0',
+        'name': 'django-1.0-bugfix',
         'dist':'svn',
         'url':'http://code.djangoproject.com/svn/django/branches/releases/1.0.X',
     }, {

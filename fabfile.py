@@ -36,7 +36,7 @@ def install_module(src_dir, module_name='', dist_utils=False):
         cmd = '(cd src/%s;\\\n../../ve/bin/python setup.py install)' % src_dir
     #symlink to site-packages
     else:
-        src_path = os.path.join(src_dir,module_name)
+        src_path = os.path.join(src_dir,module_name).rstrip('/')
         cmd = '(cd ve/lib/python2.5/site-packages;\\\nln -s ../../../../src/%s .)' % (src_path)
     return cmd
         
@@ -58,16 +58,25 @@ def bootstrap():
     local('mv ve/bin/activate.tmp ve/bin/activate')
     local('mkdir src')
     for pkg in requirements:
+        #easy_install package from PyPi
         if pkg['dist'] == 'pypi':
             cmd = './ve/bin/easy_install -a %s' % pkg['name']
             if pkg.has_key('rev'):
                 cmd += '==%s' % pkg['rev']
             local(cmd)
-        else: #we're working w/ a vcs
+            
+        #download single file
+        elif pkg['dist'] == 'wget':
+            local('cd src && wget %s' % pkg['url'])
+            local(install_module(pkg['name']))
+        
+        else: #it's a vcs
             if pkg['dist'] == 'svn':
                 local(Subversion(**pkg).checkout())
             elif pkg['dist'] == 'git':
                 local(Git(**pkg).clone())
+            else:
+                raise Exception, '%s is not a recognized distribution method' % pkg['dist']
             #if a package name isn't specified, assume dist_utils
             if pkg.has_key('package'):
                 local(install_module(pkg['name'], pkg['package']))

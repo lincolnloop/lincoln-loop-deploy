@@ -1,5 +1,10 @@
 requirements = [
-    {
+      {
+        'name': 'gondola_src',
+        'package': 'lincolnloop',
+        'dist': 'git',
+        'url': 'git@lincolnloop.unfuddle.com:lincolnloop/gondola.git',
+    }, {
         'name': 'python-dateutil',
         'dist': 'pypi',
         'rev': '1.4.1',
@@ -35,5 +40,5 @@ requirements = [
         'dist':'svn',
         'rev':'430',
         'url':'http://sorl-thumbnail.googlecode.com/svn/trunk',
-    }
+    },
 ]

@@ -1,21 +1,28 @@
 import os
 import sys
         
-class Subversion(object):
-    """
-    Generates subversion command strings
-
-    """
-
+class VersionControl(object):
+    """Generates command strings for VCS tasks"""
     def __init__(self, *args, **kwargs):
         for k,v in kwargs.items():
             setattr(self, k, v)
+        self.cmd = '%s ' % self.dist
+        
+class Subversion(VersionControl):
     def checkout(self):
-        cmd = 'svn '
-        if hasattr(self,'rev'):
+        cmd = self.cmd
+        if hasattr(self, 'rev'):
             cmd += '-r %s ' % self.rev
         cmd += 'co %s ./src/%s' % (self.url, self.name)
         return cmd
+
+class Git(VersionControl):
+    def clone(self):
+        cmd = '%s clone %s ./src/%s' % (self.cmd, self.url, self.name)
+        if hasattr(self, 'branch'):
+            cmd += '\\\n&& (cd ./src/%s; git checkout --track -b %s origin/%s)' % (self.name, self.branch, self.branch) 
+        return cmd
+        
 
 def install_module(src_dir, module_name='', dist_utils=False):
     """
@@ -51,17 +58,19 @@ def bootstrap():
     local('mv ve/bin/activate.tmp ve/bin/activate')
     local('mkdir src')
     for pkg in requirements:
-        if pkg['dist'] == 'svn':
-            local(Subversion(**pkg).checkout())
+        if pkg['dist'] == 'pypi':
+            cmd = './ve/bin/easy_install -a %s' % pkg['name']
+            if pkg.has_key('rev'):
+                cmd += '==%s' % pkg['rev']
+            local(cmd)
+        else: #we're working w/ a vcs
+            if pkg['dist'] == 'svn':
+                local(Subversion(**pkg).checkout())
+            elif pkg['dist'] == 'git':
+                local(Git(**pkg).clone())
             #if a package name isn't specified, assume dist_utils
             if pkg.has_key('package'):
                 local(install_module(pkg['name'], pkg['package']))
             else:
                 local(install_module(pkg['name'], dist_utils=True))
-        elif pkg['dist'] == 'pypi':
-            cmd = './ve/bin/easy_install -a %s' % pkg['name']
-            if pkg.has_key('rev'):
-                cmd += '==%s' % pkg['rev']
-            local(cmd)
-
                 

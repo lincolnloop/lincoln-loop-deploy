@@ -1,9 +1,9 @@
 requirements = [
       {
-        'name': 'gondola_src',
-        'package': 'lincolnloop',
+        'name': 'free_text_src',
+        'package': 'free_text',
         'dist': 'git',
-        'url': 'git@lincolnloop.unfuddle.com:lincolnloop/gondola.git',
+        'url': 'git://github.com/lincolnloop/django-freetext.git',
     }, {
         'name': 'html2text.py',
         'dist': 'wget',

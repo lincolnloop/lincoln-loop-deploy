@@ -44,11 +44,11 @@ def install_module(src_dir, module_name='', dist_utils=False):
 def bootstrap():
     """
     1. Creates a new virtualenv
-    2. Downloads all sources from fabreqs.py,
-       Adding them to the PYTHONPATH
+    2. Downloads all sources from fabreqs.py, adding them 
+       to the PYTHONPATH along the way
     
     """
-    #put the cwd on the path so we can use fabreqs.py
+    #put the cwd on the python path so we can use fabreqs.py
     sys.path.append('.') 
     from fabreqs import requirements
     local('virtualenv ve')

@@ -79,7 +79,11 @@ def bootstrap():
                 raise Exception, '%s is not a recognized distribution method' % pkg['dist']
             #if a package name isn't specified, assume dist_utils
             if pkg.has_key('package'):
-                local(install_module(pkg['name'], pkg['package']))
+                if isinstance(pkg['package'], list):
+                    for package in pkg['package']:
+                        local(install_module(pkg['name'], package))
+                else:
+                    local(install_module(pkg['name'], pkg['package']))
             else:
                 local(install_module(pkg['name'], dist_utils=True))
                 

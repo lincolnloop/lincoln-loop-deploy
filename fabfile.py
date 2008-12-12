@@ -22,7 +22,14 @@ class Git(VersionControl):
         if hasattr(self, 'branch'):
             cmd += '\\\n&& (cd ./src/%s; git checkout --track -b %s origin/%s)' % (self.name, self.branch, self.branch) 
         return cmd
-        
+
+class Mercurial(VersionControl):
+     def clone(self):
+        cmd = '%s clone %s ./src/%s' % (self.cmd, self.url, self.name)
+        if hasattr(self, 'branch'):
+            cmd += '\\\n&& (cd ./src/%s; hg update -C %s )' % (self.name, self.branch) 
+        return cmd
+
 
 def install_module(src_dir, module_name='', dist_utils=False):
     """
@@ -75,6 +82,8 @@ def bootstrap():
                 local(Subversion(**pkg).checkout())
             elif pkg['dist'] == 'git':
                 local(Git(**pkg).clone())
+            elif pkg['dist'] == 'hg':
+                local(Mercurial(**pkg).clone())
             else:
                 raise Exception, '%s is not a recognized distribution method' % pkg['dist']
             #if a package name isn't specified, assume dist_utils

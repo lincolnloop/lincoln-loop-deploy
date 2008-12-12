@@ -30,6 +30,11 @@ class Mercurial(VersionControl):
             cmd += '\\\n&& (cd ./src/%s; hg update -C %s )' % (self.name, self.branch) 
         return cmd
 
+class Bazaar(VersionControl):
+    def branch(self):
+        cmd = '%s branch %s ./src/%s' % (self.cmd, self.url, self.name)
+        return cmd
+
 
 def install_module(src_dir, module_name='', dist_utils=False):
     """
@@ -84,6 +89,8 @@ def bootstrap():
                 local(Git(**pkg).clone())
             elif pkg['dist'] == 'hg':
                 local(Mercurial(**pkg).clone())
+            elif pkg['dist'] == 'bzr':
+                local(Bazaar(**pkg).branch())
             else:
                 raise Exception, '%s is not a recognized distribution method' % pkg['dist']
             #if a package name isn't specified, assume dist_utils

@@ -1,3 +1,6 @@
+.. warning:: This project has been deprecated in favor of the amazing `pip <http://pip.openplans.org>`_ project. For more info about using ``pip`` to deploy Django and Python projects, see `Project Bootstrapping - Django Best Practices <http://lincolnloop.com/django-best-practices/deployment/bootstrap.html>`_.
+
+
 Requirements
 ============
 
